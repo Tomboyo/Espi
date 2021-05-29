@@ -82,16 +82,12 @@ defmodule Espi do
   end
 
   def scan(app, namespace) do
-    if :code.get_mode() == :interactive do
-      Logger.warn("Scanning in :interactive mode might not work (are you in iex?)")
-    end
-
-    {:ok, modules} = :application.get_key(app, :modules) |> IO.inspect()
+    {:ok, modules} = :application.get_key(app, :modules)
 
     modules
     |> Stream.filter(namespace_filter(namespace))
-    |> Stream.filter(fn m -> function_exported?(m, :components, 0) end)
-    |> Stream.flat_map(fn m -> m.components end)
+    |> Enum.filter(&has_components?/1)
+    |> Enum.flat_map(fn m -> m.components end)
     |> Enum.map(&to_child/1)
   end
 
@@ -101,6 +97,15 @@ defmodule Espi do
     else
       namespace = to_string(namespace)
       fn m -> String.starts_with?(to_string(m), namespace) end
+    end
+  end
+
+  defp has_components?(module) do
+    # make sure modules are loaded to handle :interactive mode
+    with {:module, module} <- Code.ensure_loaded(module) do
+      function_exported?(module, :components, 0)
+    else
+      e -> raise "Could not load module: #{inspect(e)}"
     end
   end
 
