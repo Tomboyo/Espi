@@ -30,7 +30,7 @@ defmodule Espi do
       # Resolve a possibly-aliased component module
       module =
         env.aliases
-        |> Stream.filter(fn {alias, mod} -> module == alias || module == mod end)
+        |> Stream.filter(fn {alias, _} -> module == alias end)
         |> Stream.map(fn {_, mod} -> mod end)
         |> Enum.at(0, module)
 
