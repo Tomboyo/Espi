@@ -13,7 +13,7 @@ defmodule Espi.Timeout do
     {:ok, {m, f}} = Keyword.fetch(opts, :callback)
     {:ok, schedule} = Keyword.fetch(opts, :schedule)
 
-    callback = fn args -> apply(m, f, [args]) end
+    callback = fn -> apply(m, f, []) end
 
     schedule_timeout(schedule)
 
@@ -27,7 +27,7 @@ defmodule Espi.Timeout do
   @impl true
   def handle_info({:timeout, schedule}, state = %{callback: callback}) do
     schedule_timeout(schedule)
-    callback.(nil)
+    callback.()
     {:noreply, state}
   end
 end

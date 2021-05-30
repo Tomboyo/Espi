@@ -21,14 +21,10 @@ defmodule Espi do
     end
   end
 
-  def __on_definition__(env, kind, fun, args, _guards, _body) do
+  def __on_definition__(env, kind, fun, _args, _guards, _body) do
     with {module, opts} <- Module.get_attribute(env.module, :component) do
       if kind != :def do
         raise "Only a public function may be a @component"
-      end
-
-      if length(args) != 1 do
-        raise "Only a single-argument function may be a @component"
       end
 
       # Resolve a possibly-aliased component module

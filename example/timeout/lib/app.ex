@@ -22,12 +22,12 @@ defmodule Example.Timeouts do
   require Logger
 
   @component {Timeout, schedule: 1_000}
-  def fn1(_), do: Logger.info("Function 1 called!")
+  def fn1(), do: Logger.info("Function 1 called!")
 
   def boom(), do: raise "I am not a component."
 
   @component {Timeout, schedule: 1_500}
-  def fn2(_), do: Logger.info("Function 2 called")
+  def fn2(), do: Logger.info("Function 2 called")
 end
 
 # Espi can search nested namespaces for components.
@@ -39,7 +39,7 @@ defmodule Example.More.Timeouts do
   require Logger
 
   @component {Timeout, schedule: 2_000}
-  def fn3(_), do: Logger.info("Function 3 called")
+  def fn3(), do: Logger.info("Function 3 called")
 end
 
 # This module is not under the configured namespace, so its components are not started with our application.
@@ -49,5 +49,5 @@ defmodule Foo.Bar.Components do
   alias Espi.Timeout
 
   @component {Timeout, schedule: 500}
-  def bar(_), do: raise "I am ignored because of my namespace"
+  def bar(), do: raise "I am ignored because of my namespace"
 end
