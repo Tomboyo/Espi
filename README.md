@@ -15,10 +15,10 @@ defmodule Example.Timeouts do
   require Logger
 
   @component {Timeout, schedule: 1_000}
-  def fn1(_), do: Logger.info("Function 1 called!")
+  def fn1(), do: Logger.info("Function 1 called!")
 
   @component {Timeout, schedule: 1_500}
-  def fn2(_), do: Logger.info("Function 2 called")
+  def fn2(), do: Logger.info("Function 2 called")
 end
 ```
 
