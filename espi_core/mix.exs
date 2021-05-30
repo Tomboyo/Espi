@@ -1,9 +1,9 @@
-defmodule Timeout.MixProject do
+defmodule Espi.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :timeout,
+      app: :espi_core,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
@@ -14,16 +14,12 @@ defmodule Timeout.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {Example.App, []},
       extra_applications: [:logger]
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [
-      # We selectively add which espi features we want to our project.
-      {:espi_timeout, path: "../../espi_timeout/"}
-    ]
+    []
   end
 end

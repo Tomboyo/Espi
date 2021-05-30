@@ -1,9 +1,9 @@
-defmodule Espi.MixProject do
+defmodule EspiTimeout.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :espi,
+      app: :espi_timeout,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
@@ -20,6 +20,8 @@ defmodule Espi.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    []
+    [
+      {:espi_core, path: "../espi_core/"}
+    ]
   end
 end
