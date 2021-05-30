@@ -21,11 +21,14 @@ defmodule Espi do
     end
   end
 
-  def __on_definition__(env, kind, fun, _args, _guards, _body) do
-    with {module, opts} <- Module.get_attribute(env.module, :component) do
-      if kind != :def do
-        raise "Only a public function may be a @component"
-      end
+  def __on_definition__(env, kind, fun, args, _guards, _body) do
+    component = Module.get_attribute(env.module, :component)
+
+    if is_nil(component) do
+      # This funciton is not a @component
+      :ok
+    else
+      {:ok, module, opts} = validate!(component, kind, {env.module, fun, length(args)})
 
       # Resolve a possibly-aliased component module
       module =
@@ -44,9 +47,27 @@ defmodule Espi do
       components = [component | components]
       Module.put_attribute(env.module, :components, components)
       Module.put_attribute(env.module, :component, nil)
+      :ok
     end
+  end
 
-    :ok
+  defp validate!(component, kind, context) do
+    with(
+      {1, :def} <- {1, kind},
+      {2, {mod, opts}} when is_atom(mod) and is_list(opts) <- {2, component}
+    ) do
+      {:ok, mod, opts}
+    else
+      {1, _} ->
+        raise bad_component("Only a public function may be a @component", context)
+
+      {2, _} ->
+        raise bad_component("Component syntax is `@component {Module, Keyword}`", context)
+    end
+  end
+
+  defp bad_component(reason, {m, f, a}) do
+    "Invalid component specification at #{m}.#{f}/#{a}: #{reason}"
   end
 
   defmacro __before_compile__(_env) do
