@@ -14,7 +14,6 @@ defmodule Timeout.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {Example.App, []},
       extra_applications: [:logger]
     ]
   end
@@ -22,6 +21,7 @@ defmodule Timeout.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:espi_core, path: "../../espi_core/"},
       # We selectively add which espi features we want to our project.
       {:espi_timeout, path: "../../espi_timeout/"}
     ]

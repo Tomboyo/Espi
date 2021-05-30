@@ -1,18 +1,3 @@
-# When we start our aplication, we also start Espi. It will launch any
-# components we have configured Espi to find.
-defmodule Example.App do
-  use Application
-
-  def start(_type, _args) do
-    children = [
-      # Scan for components defined in our Example.* modules.
-      {Espi, [app: :timeout, namespace: Example]}
-    ]
-
-    Supervisor.start_link(children, strategy: :one_for_one)
-  end
-end
-
 # Declare two timeout components, which will run on a fixed schedule when we launch our application.
 defmodule Example.Timeouts do
   use Espi
@@ -24,7 +9,7 @@ defmodule Example.Timeouts do
   @component {Timeout, schedule: 1_000}
   def fn1(), do: Logger.info("Function 1 called!")
 
-  def boom(), do: raise "I am not a component."
+  def boom(), do: raise("I am not a component.")
 
   @component {Timeout, schedule: 1_500}
   def fn2(), do: Logger.info("Function 2 called")
@@ -49,5 +34,5 @@ defmodule Foo.Bar.Components do
   alias Espi.Timeout
 
   @component {Timeout, schedule: 500}
-  def bar(), do: raise "I am ignored because of my namespace"
+  def bar(), do: raise("I am ignored because of my namespace")
 end
