@@ -21,7 +21,7 @@ defmodule EspiTimeout.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:espi_core, path: "../espi_core/"}
+      {:espi, path: "../espi/"}
     ]
   end
 end

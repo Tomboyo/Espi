@@ -22,14 +22,14 @@ defmodule Example.Timeouts do
 end
 ```
 
-This does not alter the functions in any way. When we `use Espi`, all the macro does is keep track of which functions have been registered as callbacks. When the Espi application starts, Espi will use that information to start our component processes. Espi starts automatically so long as :espi_core is a dependency of our application. We configure it like so:
+This does not alter the functions in any way. When we `use Espi`, all the macro does is keep track of which functions have been registered as callbacks. When the Espi application starts, Espi will use that information to start our component processes. Espi starts automatically so long as :espi is a dependency of our application. We configure it like so:
 
 ```elixir
 # config.exs
 import Config
 
 # Search for components in Example.* modules defined by our own application
-config :espi_core,
+config :espi,
   application: :example,
   namespace: Example
 ```

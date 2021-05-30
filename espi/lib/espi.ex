@@ -83,8 +83,8 @@ defmodule Espi do
 
     @impl true
     def start(_type, _args) do
-      app = Application.fetch_env!(:espi_core, :application)
-      namespace = Application.fetch_env!(:espi_core, :namespace)
+      app = Application.fetch_env!(:espi, :application)
+      namespace = Application.fetch_env!(:espi, :namespace)
 
       children = scan(app, namespace)
 
